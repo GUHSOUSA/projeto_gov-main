@@ -106,6 +106,10 @@ const userSchema = mongoose.Schema({
     type: String,
     default: ""
   },
+  status: {
+    type: String,
+    default: "pendente"
+  },
   
 });
 

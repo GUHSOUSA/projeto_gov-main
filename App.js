@@ -9,6 +9,7 @@ import AdmScreen from './src/componentes/Adm';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DownloadScreen from './src/componentes/Download';
 import ViewAdm from './src/componentes/view';
+import Details from './src/componentes/datails';
 
 const Stack = createStackNavigator();
 
@@ -104,6 +105,20 @@ function App() {
           <Stack.Screen
           name="View" 
           component={ViewAdm} 
+          options={{
+            title: 'Retornar para login',
+            headerStyle: {
+              backgroundColor: '#108846',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+          />
+          <Stack.Screen
+          name="Datails" 
+          component={Details} 
           options={{
             title: 'Retornar para login',
             headerStyle: {

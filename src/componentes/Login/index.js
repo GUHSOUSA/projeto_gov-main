@@ -36,8 +36,6 @@ function Login({ navigation }) {
       const response = await axios.post(`${API_URL}api/signin`, data);
 
       if(response.status === 200){
-        console.log(response.data)
-
         // acho que aqui você ja pegou as manha se a resposta do servidir for ta tudo certo.
         // o usuario e criado e captura o token pra sempre entrar direto
 
@@ -45,10 +43,7 @@ function Login({ navigation }) {
         navigation.navigate('Form');
       }
     } catch (error) {
-
       // se nao for ele captura o erro 
-      
-
       if (error.response.status === 400) {
         Alert.alert('Erro', error.response.data.msg);
       } 

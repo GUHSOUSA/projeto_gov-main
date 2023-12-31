@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Text, TextInput, Button, Image, Alert } from 'react-native';
 import styles from './style'
 import API_URL from './../../utils/url';
@@ -20,7 +20,34 @@ function Form({ navigation }) {
     const [specialNeeds, setSpecialNeeds] = useState('');
     const [governmentSupport, setGovernmentSupport] = useState('');
     const [NGOSupport, setNGOSupport] = useState('');
+    
+    useEffect(() => {
+        fetchData()
+    }, []);
+    const fetchData = async () => {
+            const token = await AsyncStorage.getItem('token');
 
+            const response = await axios.get(`${API_URL}`, {
+                headers: {
+                    'x-auth-token': token
+                }
+            });
+            if (response.data) {
+                setAddress(response.data.address);
+                setMaritalStatus(response.data.maritalStatus);
+                setFamilyMembers(response.data.familyMembers)
+                setFamilyIncome(response.data.familyIncome)
+                setMonthlyExpenses(response.data.monthlyExpenses)
+                setEducationLevel(response.data.educationLevel)
+                setJobLevel(response.data.jobLevel)
+                setHealthStatus(response.data.healthStatus)
+                setHousingType(response.data.housingType)
+                setTransportAccess(response.data.transportAccess)
+                setSpecialNeeds(response.data.specialNeeds)
+                setGovernmentSupport(response.data.governmentSupport)
+                setNGOSupport(response.data.NGOSupport)
+            }
+        };
     const handleIncomeChange = (value) => {
         const formattedValue = `R$ ${value.replace(/\D/g, "").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")}`;
         setFamilyIncome(formattedValue);
@@ -31,8 +58,11 @@ function Form({ navigation }) {
         setMonthlyExpenses(formattedValue);
     };
 
+
+
+
+
     const handleSubmit = async () => {
-        
 
         const formData = {
             address,
@@ -50,21 +80,25 @@ function Form({ navigation }) {
             NGOSupport
         };
         try {
+
+            const token = await AsyncStorage.getItem('token');
             
-            const id = await AsyncStorage.getItem('id');
-            console.log(id)
             // aqui de novo vou dar um response pra enviar minha informação
-            const response = await axios.put(`${API_URL}api/${id}`, formData, );
-      
-            if(response){
+            const response = await axios.put(`${API_URL}api/`, formData,{
+                headers: {
+                    'x-auth-token': token
+                }
+            });
+
+            if (response) {
                 Alert.alert('Formulário enviado com sucesso!', 'Você receberá um retorno no email cadastrado.');
                 navigation.navigate('Download')
             }
-          } catch (error) {
-            
-              Alert.alert('Erro', error.response.data.msg);
-            
-          }
+        } catch (error) {
+
+            Alert.alert('Erro', error.response.data.msg);
+
+        }
 
     };
 

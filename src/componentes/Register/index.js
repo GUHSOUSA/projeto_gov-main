@@ -78,10 +78,12 @@ function Register({ navigation }) {
         const response = await axios.post(`${API_URL}api/signup`, userData);
   
         if(response.status === 200){
+          console.log(response.data)
           Alert.alert(
             'Cadastro Concluído com Sucesso',
             'Por favor, faça login para continuar e preencher sua ficha socioeconômica.'
           );
+          
           navigation.navigate('Login');
         }
       } catch (error) {
